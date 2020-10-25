@@ -1,0 +1,23 @@
+﻿<div class="card">
+    <div class="card-header">
+        Blazor component in MVC view!
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Counter Value: @CounterValue</h5>
+
+        <button class="btn btn-primary" @onclick="AddCount">+1</button>
+
+        <br />
+        @if (CounterValue % 5 == 0)
+        {
+            <p class="card-text text-secondary">The number is divisible by 5.</p>
+        }
+    </div>
+</div>
+
+
+@code {
+    public int CounterValue { get; set; } = 1;
+
+    private void AddCount() => CounterValue++;
+}

@@ -1,0 +1,54 @@
+﻿@model BlazorInMVC.Domain.Entity.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit Product</h2>
+<hr />
+<div class="row">
+    <div class="col-md-5 card">
+        <div class="card-header text-center">
+            <p>Classic form in view (.cshtml)</p>
+            <p>We are doomed to e.g. javascript validation or only action validation (but this requires a page refresh).</p>
+        </div>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Size" class="control-label"></label>
+                <input asp-for="Size" class="form-control" />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+        </form>
+        <div class="card-footer">
+            <p class="text-muted">You can delete this form and leave only the form from blazor component and everything will still work.</p>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <component type="typeof(BlazorInMVC.BlazorComponents.ProductEdit)" render-mode="Server" param-Model=@Model param-AntiForgeryToken=@GetAntiForgeryToken() />
+
+</div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+    @functions{
+        public string GetAntiForgeryToken() => Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+
+    @section Scripts {
+        <script src="~/_framework/blazor.server.js"></script>
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

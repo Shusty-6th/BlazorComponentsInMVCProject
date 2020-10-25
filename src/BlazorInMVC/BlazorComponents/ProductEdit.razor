@@ -1,0 +1,52 @@
+﻿
+<div class="col-md-5 card">
+    <div class="card-header text-center">
+        <p class="text-primary">Blazor component with Form!</p>
+        <p>Remove name from input and see client side validation without writing javascript.</p>
+    </div>
+    <EditForm Model="@Model">
+        <form method="post">
+            @*Ugly solution, but I didn't want to waste time writing my own validation for inputs. Therefore, I used the default validation support with DataAnnotationsValidator and EditForm. And I overwritten EditForm with a regular <form>*@
+            <DataAnnotationsValidator />
+            <div class="form-group row">
+                <label class="control-label col-md-12">Name</label>
+                <div class="col-md-12">
+                    <InputText class="form-control" @bind-Value="Model.Name" name="Name" />
+                    <ValidationMessage For="@(() => Model.Name)" style="color: #dc3545!important;
+                                                                           flex: 0 0 66.666667%;
+                                                                           max-width: 66.666667%;" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-md-12">Size</label>
+                <div class="col-md-12">
+                    <InputNumber class="form-control" @bind-Value="Model.Size" name="Size" />
+                    <ValidationMessage For="@(() => Model.Size)" style="color: #dc3545!important;
+                                                                           flex: 0 0 66.666667%;
+                                                                           max-width: 66.666667%;" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            <input name="__RequestVerificationToken" type="hidden" value="@AntiForgeryToken">
+        </form>
+    </EditForm>
+
+    <div class="card-footer">
+        <h5>Tracked model:</h5>
+        <span class="text-muted">Change input data and see reading the bound model without having to write javascript!</span>
+        <p>Id: @Model.Id</p>
+        <p>Name: @Model.Name</p>
+        <p>Size: @Model.Size</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Product Model { get; set; } = new Product();
+
+    [Parameter]
+    public string AntiForgeryToken { get; set; }
+}
